@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" 
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>CFBundleDisplayName</key>
+  <string>HolovueStream</string>
+
+  <key>CFBundleIdentifier</key>
+  <string>com.creaive.holovuestream</string>
+
+  <key>CFBundleName</key>
+  <string>HolovueStream</string>
+
+  <key>CFBundleVersion</key>
+  <string>1.0.0</string>
+
+  <key>CFBundleShortVersionString</key>
+  <string>1.0.0</string>
+
+  <key>LSApplicationCategoryType</key>
+  <string>public.app-category.utilities</string>
+
+  <!-- ✅ Permissions -->
+  <key>NSCameraUsageDescription</key>
+  <string>This app requires access to your camera for real-time streaming.</string>
+
+  <key>NSMicrophoneUsageDescription</key>
+  <string>This app may optionally use your microphone.</string>
+
+  <!-- ✅ Fix continuity camera warning -->
+  <key>NSCameraUseContinuityCameraDeviceType</key>
+  <true/>
+
+  <!-- Optional: Full screen or menu bar control -->
+  <key>NSRequiresAquaSystemAppearance</key>
+  <false/>
+</dict>
+</plist>
