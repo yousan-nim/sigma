@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getAuthToken } from './lib/token/token';
+
+import VideoDisplay from './components/VideoDisplay';
 import WebcamStream from './WebcamStream';
 
 function App(): React.JSX.Element {
@@ -22,7 +24,8 @@ function App(): React.JSX.Element {
   }
 
   return (
-    <div>
+    <div className='w-screen h-screen flex items-center justify-center bg-gray-100'>
+      <VideoDisplay />
       <WebcamStream token={token} />
     </div>
   );

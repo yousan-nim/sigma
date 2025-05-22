@@ -34,10 +34,8 @@ export function useWebcamStreamer(videoRef: React.RefObject<HTMLVideoElement>, t
                         if (blob) ws.send(blob);
                     }, "image/jpeg", 0.7);
                 }
-
                 requestAnimationFrame(sendFrame);
             };
-
             sendFrame();
         };
 
