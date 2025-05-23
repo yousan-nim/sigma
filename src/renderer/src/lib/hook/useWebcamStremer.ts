@@ -23,8 +23,19 @@ export function useWebcamStreamer(videoRef: React.RefObject<HTMLVideoElement>, t
             const canvas = document.createElement("canvas");
             const ctx = canvas.getContext("2d");
 
-            const sendFrame = () => {
+            // Configurable FPS and JPEG Quality
+            const targetFps = parseInt(import.meta.env.VITE_FPS || "10", 10);
+            const jpegQuality = parseFloat(import.meta.env.VITE_JPEG_QUALITY || "0.7");
+            const frameInterval = 1000 / targetFps;
+
+            let lastFrameTime = 0;
+
+            const sendFrame = (timestamp?: number) => {
                 if (ws.readyState !== WebSocket.OPEN) return;
+
+                // Ensure requestAnimationFrame is used for timing if possible, or fallback to setTimeout style
+                // For more precise FPS control, we use a setTimeout loop instead of requestAnimationFrame directly controlling sends
+                // However, requestAnimationFrame is good for knowing when to *start* a cycle.
 
                 if (video.videoWidth && video.videoHeight) {
                     canvas.width = video.videoWidth;
@@ -32,14 +43,25 @@ export function useWebcamStreamer(videoRef: React.RefObject<HTMLVideoElement>, t
                     ctx?.drawImage(video, 0, 0, canvas.width, canvas.height);
                     canvas.toBlob((blob) => {
                         if (blob) ws.send(blob);
-                    }, "image/jpeg", 0.7);
+                    }, "image/jpeg", jpegQuality);
                 }
-                requestAnimationFrame(sendFrame);
+                // Schedule next frame
+                setTimeout(sendFrame, frameInterval);
             };
-            sendFrame();
+
+            // Start the loop
+            const startStreaming = () => {
+                if (streamRef.current) { // Ensure stream is active
+                    sendFrame();
+                }
+            };
+
+            startStreaming(); // Initial call to start the loop
+
         };
 
         return () => {
+            // Clear timeout if we were to store its ID, though for this structure it stops via WebSocket state
             streamRef.current?.getTracks().forEach((track) => track.stop());
             wsRef.current?.close();
         };
